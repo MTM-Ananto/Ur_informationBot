@@ -1,7 +1,7 @@
 import telebot
 
-API_TOKEN = '7694803740:AAHg0zFzN27zlEpUNmy1j66cVDEg3AfWyEA'
-OWNER_ID = 2020690884  # Replace with your Telegram ID
+API_TOKEN = 'myapi'
+OWNER_ID = myid  # Replace with your Telegram ID
 
 bot = telebot.TeleBot(API_TOKEN, parse_mode="Markdown")  # Enable Markdown parsing
 
