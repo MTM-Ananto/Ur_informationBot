@@ -1,10 +1,12 @@
+import os
 import telebot
 
-API_TOKEN = 'myapi'
-OWNER_ID = myid  # Replace with your Telegram ID
+API_TOKEN = os.getenv('API_TOKEN')  # Token from environment variable
+OWNER_ID = int(os.getenv('OWNER_ID'))  # Owner ID from environment variable
 
 bot = telebot.TeleBot(API_TOKEN, parse_mode="Markdown")  # Enable Markdown parsing
 
+# Rest of your code remains the same...
 # Maintain a set of active chat IDs
 active_chats = set()
 
