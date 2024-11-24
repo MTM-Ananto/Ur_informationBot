@@ -1,15 +1,17 @@
 import os
 import telebot
 
-API_TOKEN = os.getenv('API_TOKEN')  # Token from environment variable
-OWNER_ID = int(os.getenv('OWNER_ID'))  # Owner ID from environment variable
+# Retrieve the bot token and owner ID from environment variables
+API_TOKEN = os.getenv('BOT_API_TOKEN')  # Replace with your environment variable name
+OWNER_ID = int(os.getenv('OWNER_ID'))  # Replace with your environment variable name
 
 bot = telebot.TeleBot(API_TOKEN, parse_mode="Markdown")  # Enable Markdown parsing
 
-# Rest of your code remains the same...
+# Remove any active webhooks to allow long polling
+bot.delete_webhook()
+
 # Maintain a set of active chat IDs
 active_chats = set()
-
 
 # Notify the owner whenever /info command is used
 def notify_owner(user, chat_type, target_user=None, message_link=None):
@@ -21,12 +23,10 @@ def notify_owner(user, chat_type, target_user=None, message_link=None):
     
     bot.send_message(OWNER_ID, notification)
 
-
 # Track active chats
 @bot.message_handler(func=lambda message: True)
 def track_active_chats(message):
     active_chats.add(message.chat.id)
-
 
 # /start command
 @bot.message_handler(commands=['start'])
@@ -37,7 +37,6 @@ def start(message):
         f"Hello @{user.username}, welcome to my Information bot. Hope you enjoy the service. "
         "Type /info to see your information privately. Type /runadd to run your advertisement in the bot."
     )
-
 
 # /info command
 @bot.message_handler(commands=['info'])
@@ -98,12 +97,10 @@ def info(message):
             f"Language: {user.language_code}"
         )
 
-
 # /runadd command
 @bot.message_handler(commands=['runadd'])
 def runadd(message):
     bot.send_message(message.chat.id, "Please contact @M_TM_A for running advertisements in the bot.")
-
 
 # /broadcast command (Owner only)
 @bot.message_handler(commands=['broadcast'])
@@ -129,5 +126,5 @@ def broadcast(message):
     else:
         bot.send_message(message.chat.id, "Please reply to the message you want to broadcast.")
 
-
+# Start polling for updates from Telegram
 bot.polling()
